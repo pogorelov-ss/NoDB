@@ -36,9 +36,11 @@ class NoDB(object):
     encoding = 'utf8'
     profile_name = None
 
-    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=signature_version), endpoint_url=None)
+    s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=signature_version))
 
-    def __init__(self, profile_name=None, session=None):
+    def __init__(self, profile_name=None, session=None, endpoint_url=None):
+        if endpoint_url:
+            self.s3 = boto3.resource('s3', config=botocore.client.Config(signature_version=signature_version), endpoint_url=endpoint_url)
         if profile_name:
             self.profile_name = profile_name
         if self.profile_name:
